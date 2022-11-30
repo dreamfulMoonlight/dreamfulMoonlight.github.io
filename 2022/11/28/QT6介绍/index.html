@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="Qt6新特性介绍与属性绑定系统详解">
+<meta property="og:type" content="article">
+<meta property="og:title" content="QT6介绍">
+<meta property="og:url" content="http://example.com/2022/11/28/QT6%E4%BB%8B%E7%BB%8D/index.html">
+<meta property="og:site_name" content="Blog">
+<meta property="og:description" content="Qt6新特性介绍与属性绑定系统详解">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2022-11-28T06:42:21.000Z">
+<meta property="article:modified_time" content="2022-11-30T02:25:53.510Z">
+<meta property="article:author" content="MnnM">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://example.com/2022/11/28/QT6%E4%BB%8B%E7%BB%8D/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
+
+  <title>QT6介绍 | Blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+        <li class="menu-item menu-item-学习文档">
+
+    <a href="/%E5%AD%A6%E4%B9%A0%E6%96%87%E6%A1%A3/" rel="section"><i class="fa fa-user fa-fw"></i>学习文档</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/11/28/QT6%E4%BB%8B%E7%BB%8D/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="MnnM">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          QT6介绍
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2022-11-28 14:42:21" itemprop="dateCreated datePublished" datetime="2022-11-28T14:42:21+08:00">2022-11-28</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2022-11-30 10:25:53" itemprop="dateModified" datetime="2022-11-30T10:25:53+08:00">2022-11-30</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>Qt6新特性介绍与属性绑定系统详解</p>
+<span id="more"></span>
+
+<h1 id="QT6新特性"><a href="#QT6新特性" class="headerlink" title="QT6新特性"></a>QT6新特性</h1><p>Key changes in Qt 6.0 include:</p>
+<ul>
+<li>利用C ++ 17特性</li>
+<li>新一代的QML</li>
+<li>核心库的改进</li>
+<li>全新图形架构</li>
+<li>使用Qt Quick统一2D和3D图形</li>
+<li>CMake构建系统（应用程序仍支持qmake）</li>
+</ul>
+<h2 id="新一代的QML"><a href="#新一代的QML" class="headerlink" title="新一代的QML"></a>新一代的QML</h2><p> QML和Qt Quick是过去几年推动Qt增长的主要技术。使用这些技术可以直观的创建用户界面是我们产品的一个独特卖点。 QML是为Qt 5创建的，但是它有一些问题和限制。这也意味着它可以大幅改进，我们计划在Qt 6中实现这些改进。我们计划如下： </p>
+<ul>
+<li>引入强类型。弱类型使得用户很难对他们的代码库进行大的更改。一个强大的类型系统允许IDE和其他工具帮助用户完成这项任务，并极大地简化了维护成本。此外，它还有助于我们生成性能更好的代码和减少相关开销。</li>
+<li>能够将QML编译成C++和机器码。</li>
+<li>删除QObject和QML之间重复的数据结构 目前我们的元对象系统和QML之间有相当多重复的数据结构，这些重复的数据结构会降低启动性能，增加内存使用量。通过统一这些数据结构，我们能够减少许多开销。避免运行时生成数据结构。 </li>
+<li>支持把QML编译成高效原生的C++代码。通过强大的类型和更简单的查找规则，我们可以将QML转换为高效原生的C++代码，从而显著提高运行时性能。</li>
+<li>支持隐藏实现细节。为了能够在QML组件中隐藏数据和功能，对方法和属性进行“私有化”一直是一个长期的需求。 更好的工具集成。我们当前的QML代码模型时常不完整，这使得重构和在编译时检测错误变得困难甚至不可能。通过上述更改，应该能够提供与C++相媲美的编译时诊断以及大幅改进的重构支持。</li>
+</ul>
+<h2 id="核心库与API"><a href="#核心库与API" class="headerlink" title="核心库与API"></a>核心库与API</h2><p>我们为Qt Core做了大量工作，因为它是实现Qt最核心部分的模块，我们做了许多改进。 列举几个最重要的例子：</p>
+<ul>
+<li>新的属性和绑定系统：该系统将绑定的概念（使QML在Qt5取得了巨大成功）带回到了Qt的核心，并使其可用于C ++。</li>
+<li>字符串和Unicode：Qt 5时我们朝着使Qt与Unicode完全对齐的方向发展，所以许多工作已经完成。 但是，剩下的一些部分已在Qt 6中得到了清理。更多详细信息将很快在另一篇博文中介绍。</li>
+<li>QList在Qt 5中经常受到批评，因为它是对存储在其中的大于指针的对象进行堆分配，这给内存分配器带来了很大的压力。 在Qt 6中，我们对此进行了更改，并将QList和QVector统一为一个类。 有关更多详细信息，请参见我们在Qt 6中有关QList的<a target="_blank" rel="noopener" href="https://www.qt.io/blog/qlist-changes-in-qt-6">博客</a>。</li>
+<li>QMetaType和QVariant是Qt元对象系统的基础。 没有QMetaType，信号和插槽将无法实现，动态调用需要QVariant。 Qt 6中的这两个类几乎完全重写，您可以在此处找到<a target="_blank" rel="noopener" href="https://www.qt.io/blog/whats-new-in-qmetatype-qvariant">详细信息</a>。</li>
+</ul>
+<p>Qt中与图形无关的其他部分也完成了显著的改进。比如完成了Qt Concurrent的大量重写，使得多线程应用程序的开发更加简单。我们对Qt Network也做了大幅整理和改进（具体内容请参考<a target="_blank" rel="noopener" href="https://www.qt.io/blog/qt-network-in-qt-6">这篇博文</a>）</p>
+<h2 id="新的图形架构"><a href="#新的图形架构" class="headerlink" title="新的图形架构"></a>新的图形架构</h2><p>Qt 5的图形架构非常依赖OpenGL作为底层3D图形API。尽管对于2012年的Qt 5而言，这是正确的，但过去几年，随着Metal和Vulkan的推出，市场环境发生了显著变化。现在，我们有大量图形API，运用在各种平台上。对于作为跨平台框架的Qt而言，这无疑意味着我们必须适应这一点，并确保用户可以在所有平台上都以最高的图形性能运行Qt。</p>
+<p>因此，虽然Qt 5仍依赖OpenGL实现硬件加速图形，但Qt 6完全改变了局面。Qt Quick中的所有3D图形现在都建立在新的3D图形抽象层之上，该抽象层称为渲染硬件接口（RHI）。这使Qt可以使用目标OS &#x2F;平台上原生的3D图形API。所以Qt Quick现在默认会在Windows上使用Direct3D，在macOS上使用Metal。有关详细信息，<a target="_blank" rel="noopener" href="https://www.qt.io/blog/graphics-in-qt-6.0-qrhi-qt-quick-qt-quick-3d">请参阅有关RHI的系列博文</a>。此外，它现在的特点是在2D和3D内容之间进行了更深入、更有性能的整合，允许你将2D项目放入3D场景中。它还大大改进了对glTF2和基于物理学的渲染的支持，使得导入在其他设计工具中创建的资产变得轻而易举。</p>
+<p>Qt中的OpenGL特定类仍然存在，但现在已从QtGui移到QtOpenGL模块中。我们还添加了一个名为QtShaderTools的新模块，以跨平台的方式处理这些API的不同着色语言。</p>
+<h2 id="Qt-Quick-3D和Qt-3D"><a href="#Qt-Quick-3D和Qt-3D" class="headerlink" title="Qt Quick 3D和Qt 3D"></a>Qt Quick 3D和Qt 3D</h2><p>Qt Quick 3D是一个比较新的模块，无缝扩展了Qt Quick的3D功能。在Qt Quick 3D中，我们的重点是创建一个与Qt Quick现有部分（用于2D用户界面）一样方便使用的API，同时也为创建复杂的3D场景提供全面支持。这项工作背后的主要目标是实现2D和3D内容的无缝集成。</p>
+<p>我们大改了Qt 6的这个模块，这在Qt 5系列中是无法做到的。最重要的是，它现在始终使用RHI抽象层来优化底层图形API和硬件。 此外，它在2D和3D内容之间具有更深、更高性能的集成，允许您将2D项目放入3D场景中。 它还极大地改善了对glTF2和基于物理渲染的支持，使得导入其他设计工具中创建的素材变得非常容易。 该模块还有许多其他重大改进，更多细节描述可以在本篇博文中找到。</p>
+<p>Qt 3D现在也基于RHI抽象层，已看到了一些性能改进和清理。您可以在我们合作伙伴KDAB的两篇博文中找到更多详细信息(这里和这里)。</p>
+<h2 id="构建系统和打包"><a href="#构建系统和打包" class="headerlink" title="构建系统和打包"></a>构建系统和打包</h2><p>我们还大幅修改了构建和分发Qt的方式。值得一提的是，Qt 6本身现在是使用CMake构建的。这也为使用CMake构建项目的所有用户带来了重大改进。我们将在Qt 6生命周期内继续支持qmake，因此，如果您正使用它，则无需更改构建系统，但是我们建议所有新项目都使用CMake。</p>
+<p>Qt 6还附带了一个更小的默认程序包，许多附加组件现在通过程序包管理器作为单独的包分发。这使我们能更灵活地根据市场需求调整附加组件的发布时间表，例如，允许核心Qt包更频繁地发布新特性，或者让它们同时适用于多个Qt版本。此外，我们可以使用程序包管理器作为第三方内容的交付渠道。最后，用户可以灵活地选择只下载真正需要的内容。</p>
+<h2 id="Qt6属性绑定"><a href="#Qt6属性绑定" class="headerlink" title="Qt6属性绑定"></a>Qt6属性绑定</h2><h3 id="Qt-5中的绑定"><a href="#Qt-5中的绑定" class="headerlink" title="Qt 5中的绑定"></a>Qt 5中的绑定</h3><p>让我们首先回顾一下Qt 5中属性绑定的工作方式。在那里，绑定支持仅限于Qt Quick。这是一个非常简单的示例：<br>在 QML 中，我们可以通过属性绑定使得关联的属性自动更新。如下的代码片段使得 height 绑定到 width，当 wdith 值变化时，height 的值也能根据绑定的表达式重新计算：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">import QtQuick 2.15</span><br><span class="line"> </span><br><span class="line">Rectangle &#123;</span><br><span class="line">    width: 10</span><br><span class="line">    height: width</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在Qt 5的生命周期中，我们已经看到，绑定使代码的表现力更强，并删除了很多需要编写的胶水代码。所以，在Qt 6中，我们的目标是允许作为一个C++开发者也能使用这种机制。在 Qt6 中，属性绑定这一机制也被引入到了 Qt C++，将上面 QML 代码转化为 C++ 逻辑就是：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">class Rectangle &#123;</span><br><span class="line">public:</span><br><span class="line">    QProperty&lt;int&gt; width&#123;10&#125;;  </span><br><span class="line">    QProperty&lt;int&gt; height;</span><br><span class="line"> </span><br><span class="line">    Rectangle() &#123;</span><br><span class="line">        height.setBinding([this]() &#123;</span><br><span class="line">            return width.value();</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>其中，<strong>QProperty<int>代表绑定属性，提供setBinding,onValueChanged,subscribe,addNotifier等接口（下方介绍）</strong></p>
+<p>在 QML 中，属性值修改时会触发 onXXXChanged 信号，如：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">onWidthChanged: &#123; /**/ &#125;</span><br><span class="line">onHeightChanged: &#123; /**/ &#125;</span><br></pre></td></tr></table></figure>
+<p>QProperty 也提供了三个对应的接口：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">template &lt;typename T&gt; </span><br><span class="line">class QProperty </span><br><span class="line">&#123; </span><br><span class="line">    std::function&lt;T()&gt; binding = nullptr; </span><br><span class="line">    T data; </span><br><span class="line">public: </span><br><span class="line">    T value() const &#123;  </span><br><span class="line">        if (binding) return binding();  </span><br><span class="line">        return data; </span><br><span class="line">    &#125; </span><br><span class="line">    void setValue(const T &amp;newValue) &#123; </span><br><span class="line">        if (binding) binding = nullptr; </span><br><span class="line">        data = newValue; </span><br><span class="line">    &#125; </span><br><span class="line">    void setBinding(std::function&lt;T&gt; b) &#123; binding = b; &#125; </span><br><span class="line">    </span><br><span class="line">    template &lt;typename Functor&gt;  </span><br><span class="line">    QPropertyChangeHandler&lt;Functor&gt; QProperty::onValueChanged(Functor f) </span><br><span class="line">    //绑定，以及值变更时回调 </span><br><span class="line">    template &lt;typename Functor&gt;  </span><br><span class="line">    QPropertyChangeHandler&lt;Functor&gt; QProperty::subscribe(Functor f) </span><br><span class="line">    //值变更时回调，返回的不是模板更容易存储，可作为类成员 </span><br><span class="line">    template &lt;typename Functor&gt;  </span><br><span class="line">    QPropertyNotifier QProperty::addNotifier(Functor f)</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h3 id="为什么需要将绑定系统拓展到C-中"><a href="#为什么需要将绑定系统拓展到C-中" class="headerlink" title="为什么需要将绑定系统拓展到C++中"></a>为什么需要将绑定系统拓展到C++中</h3><p>除了良好且易于使用的语法外，系统还需要满足其他一些要求。</p>
+<ul>
+<li><strong>性能</strong>系统需要快速，评估绑定时开销应尽可能少</li>
+<li><strong>无开销</strong>当系统不使用时，系统不应增加明显的运行时开销</li>
+<li><strong>内存效率高</strong> 系统应该具有较低的内存开销</li>
+<li><strong>与QObject中的现有属性系统集成</strong>Qt具有针对基于QObject的类的预先存在的属性系统，并且新系统应集成&#x2F;扩展该系统</li>
+</ul>
+<h4 id="简单实施"><a href="#简单实施" class="headerlink" title="简单实施"></a>简单实施</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">template &lt;typename T&gt;</span><br><span class="line">class QProperty</span><br><span class="line">&#123;</span><br><span class="line">    std::function&lt;T()&gt; binding = nullptr;</span><br><span class="line">    T data;</span><br><span class="line">public:</span><br><span class="line">    T value() const &#123; </span><br><span class="line">        if (binding) return binding(); </span><br><span class="line">        return data;</span><br><span class="line">    &#125;</span><br><span class="line">    void setValue(const T &amp;newValue) &#123;</span><br><span class="line">        if (binding) binding = nullptr;</span><br><span class="line">        data = newValue;</span><br><span class="line">    &#125;</span><br><span class="line">    void setBinding(std::function&lt;T&gt; b) &#123; binding = b; &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>上面的实现可能是实现支持绑定的QProperty类的最简单方法。它基本上包含了属性数据和一个有可能为空的绑定的函数指针。每当在属性上设置了一个绑定，如果设置了一个绑定，属性获取器将总是执行绑定来检索值。</p>
+<p>然而这种实现有几个严重的缺点，使得它不适合按原样使用。最明显的一个缺点就是性能会非常差，特别是当绑定依赖于其他属性，而这些属性本身也有绑定的时候。每次调用getter时都要评估这些绑定，会造成严重的性能问题。更糟糕的是，这可能会导致应用程序崩溃或死锁（万一一个绑定以某种方式引用回自己）。</p>
+<h4 id="即时绑定和延迟绑定"><a href="#即时绑定和延迟绑定" class="headerlink" title="即时绑定和延迟绑定"></a>即时绑定和延迟绑定</h4><p>所以我们确实需要一个更高级一点的设计。基本上有两种可能的方法来避免每次调用setter时计算绑定的值。这两种方法都涉及到将结果值缓存在数据中。此外，我们还需要记住一个绑定所依赖的属性。</p>
+<p>Qt Quick在Qt 5中做的就是即时绑定评估，这意味着每当一个属性被改变，我们就会立即触发对所有依赖这个属性的绑定的重新评估。这个系统的缺点是，它可能会导致不必要的绑定表达式的评估。一个例子是一个被绑定为width*height的属性区域。如果宽度和高度都被分配了新的值，面积就会被计算两次，尽管只有第二个结果会被使用。</p>
+<p>因此，在 Qt 6 中，我们使用了延迟绑定评估。这意味着我们递归地将所有依赖于属性的绑定标记为 dirty。然后，属性获取器检查该 dirty 标志，如果它为真，则重新评估绑定表达式，然后将结果存储在数据中并清除 dirty 标志。</p>
+<p>这就是QProperty现在的简化视图。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">template &lt;typename T&gt;</span><br><span class="line">class QProperty</span><br><span class="line">&#123;</span><br><span class="line">    T val;</span><br><span class="line">    QPropertyBindingData d;</span><br><span class="line">public:</span><br><span class="line">    T value() const &#123; </span><br><span class="line">        if (d.hasBinding())</span><br><span class="line">            d.evaluateIfDirty(this);</span><br><span class="line">        d.registerWithCurrenlyEvaluatingBinding();</span><br><span class="line">        return this-&gt;val;</span><br><span class="line">    &#125;</span><br><span class="line">    void setValue(const T &amp;t) &#123; </span><br><span class="line">        d.removeBinding();</span><br><span class="line">        if (this-&gt;val == t)</span><br><span class="line">            return;</span><br><span class="line">        this-&gt;val = t;</span><br><span class="line">        notify();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;   </span><br></pre></td></tr></table></figure>
+<p>这里发生的事情是，getter检查我们是否有一个绑定，如果有，则重新评估它。之后，作为第二步，它将自己与任何可能正在评估的绑定进行注册。setValue()与之前相当类似。如果新旧值相同，我们就会快捷设置器，以避免这种情况下的绑定重新评估。如果设置了新的值，我们就调用notify()，而notify()又会将所有依赖于这个属性的绑定标记为dirty。</p>
+<h4 id="延迟绑定的限制性"><a href="#延迟绑定的限制性" class="headerlink" title="延迟绑定的限制性"></a>延迟绑定的限制性</h4><p>绑定属性最开始的使用初衷是用于延迟（或惰性）绑定，这意味着属性更改不会立即触发依赖于该属性的绑定的重新评估。 相反，只有在读取属性时才会延迟评估绑定。 优点是依赖于多个属性的绑定不会在每次其中一个依赖属性更改时重新计算。 这也会导致更少的属性更改通知，因为在评估绑定时不会为中间值发送它们。这听起来不错，但是当将不同 Qt 模块的一些属性移植到新的可绑定属性系统时，我们意识到对于大多数属性来说，延迟求值效果不佳。 大多数现有代码都需要急切求值，在不破坏逻辑的情况下将其更改为与惰性求值一起工作需要在某些情况下进行大量修改和重大重写。 用户代码也可能如此。 <strong>因此在Qt6.2版本，决定使用立即绑定并添加对分组属性更新的支持，以尽量减少不必要的重新计算和更改通知。</strong> 例如：<br>如果一个 QProperty 属性绑定的表达式中有多个 QProperty 参与计算，在 Qt 当前的通知策略下，每个表达式中的对象变化时都会触发通知。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">QProperty&lt;int&gt; a &#123;1&#125;;</span><br><span class="line">QProperty&lt;int&gt; b &#123;2&#125;;</span><br><span class="line">QProperty&lt;int&gt; c;</span><br><span class="line">c.setBinding([&amp;] &#123; return a + b; &#125;);</span><br><span class="line"> </span><br><span class="line">auto notifier = c.addNotifier([&amp;] &#123;</span><br><span class="line">    qDebug()&lt;&lt;&quot;Value of c changed:&quot;&lt;&lt;c.value();</span><br><span class="line">&#125;);</span><br><span class="line"> </span><br><span class="line">a = 2;</span><br><span class="line">b = 3;</span><br></pre></td></tr></table></figure>
+<p>上面的代码会输出：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Value of c changed: 4</span><br><span class="line">Value of c changed: 5</span><br></pre></td></tr></table></figure>
+
+<p>通过对属性更新分组，可以使得只触发一次通知：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Qt::beginPropertyUpdateGroup();</span><br><span class="line">a = 2;</span><br><span class="line">b = 3;</span><br><span class="line">Qt::endPropertyUpdateGroup();</span><br></pre></td></tr></table></figure>
+<p>此时只输出： </p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Value of c changed: 5</span><br></pre></td></tr></table></figure>
+<h4 id="通知和变更处理程序"><a href="#通知和变更处理程序" class="headerlink" title="通知和变更处理程序"></a>通知和变更处理程序</h4><p>除了设置绑定外，QProperty还允许为属性注册变化处理程序。使用QProperty的onValueChanged()或subscribe()方法，可以注册一个回调，每当属性的底层值发生变化时，这个回调就会被调用。</p>
+<p>当属性的值通过调用setter而改变时，或者当属性的绑定因为它的一个依赖关系改变而被标记为dirty时，回调将被调用。</p>
+<h3 id="使用Q-PROPERTY、Q-OBJECT-BINDABLE-PROPERTY-声明定义可绑定对象"><a href="#使用Q-PROPERTY、Q-OBJECT-BINDABLE-PROPERTY-声明定义可绑定对象" class="headerlink" title="使用Q_PROPERTY、Q_OBJECT_BINDABLE_PROPERTY 声明定义可绑定对象"></a>使用Q_PROPERTY、Q_OBJECT_BINDABLE_PROPERTY 声明定义可绑定对象</h3><p>Qt官方建议用 Q_OBJECT_BINDABLE_PROPERTY 宏创建QObjectBindableProperty的一个实例。在类声明中使用 Q_OBJECT_BINDABLE_PROPERTY 宏将属性声明为可绑定。</p>
+<ul>
+<li>Q_PROPERTY 宏增加了 BINDABLE 字段标记一个返回 QBindable 对象的函数</li>
+<li>定义一个返回 QBindable 对象的函数</li>
+<li>使用 Q_OBJECT_BINDABLE_PROPERTY 宏定义这个可绑定的对象（与 QProperty 不同，Q_OBJECT_BINDABLE_PROPERTY 不会增加任何内存开销。宏实现的对象的大小与所存储的数据的大小相同。这是通过将绑定数据移动到整个 QObject 实例的通用数据结构（按需分配）来实现的）</li>
+</ul>
+<p>官方实例代码如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">class Rectangle : public QObject &#123;</span><br><span class="line">    Q_OBJECT</span><br><span class="line">    Q_PROPERTY(int height READ height WRITE setHeight NOTIFY heightChanged BINDABLE bindableHeight)</span><br><span class="line">public:</span><br><span class="line">    void setHeight(int h) &#123; m_height = h; &#125;</span><br><span class="line">    int height() const &#123; return m_height; &#125;</span><br><span class="line">    QBindable&lt;int&gt; bindableHeight() &#123; return &amp;m_height; &#125; //用于设置绑定或者值变更回调</span><br><span class="line">signals: </span><br><span class="line">    void heightChanged(); </span><br><span class="line">private:</span><br><span class="line">    Q_OBJECT_BINDABLE_PROPERTY(Rectangle, int, m_height, &amp;Rectangle::heightChanged)  //定义可绑定属性，当可绑定属性变更触发heightChange信号</span><br><span class="line"></span><br><span class="line">    // 绑定属性的初始化方式</span><br><span class="line">    Q_OBJECT_BINDABLE_PROPERTY_WITH_ARGS(Rectangle, int, m_height, 5, &amp;Rectangle::heightChanged)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">int main()</span><br><span class="line">&#123;</span><br><span class="line">    bool debugout(true); // enable debug log</span><br><span class="line">    Rectangle myfoo;</span><br><span class="line">    QProperty&lt;int&gt; prop(42);</span><br><span class="line">    QObject::connect(&amp;myfoo, &amp;Rectangle::heightChanged, [&amp;]() &#123;</span><br><span class="line">        if (debugout)</span><br><span class="line">            qDebug() &lt;&lt; myfoo.height();</span><br><span class="line">    &#125;);</span><br><span class="line">    myfoo.bindableHeight().setBinding([&amp;]() &#123; return prop.value(); &#125;); // prints &quot;42&quot;</span><br><span class="line"></span><br><span class="line">    prop = 5; // prints &quot;5&quot;</span><br><span class="line">    debugout = false;</span><br><span class="line">    prop = 6; // prints nothing</span><br><span class="line">    debugout = true;</span><br><span class="line">    prop = 7; // prints &quot;7&quot;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>QBindable&lt;T&gt; bindableMyVal()是一个轻量级接口，它提供了QProperty中也有的附加功能。它允许设置和检索绑定并注册通知。例如，在MyObject的x属性上设置一个绑定可以通过调用来实现。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">myObject-&gt; bindableX（).setBinding（[otherObject]（）&#123; </span><br><span class="line">    return otherObject-&gt; x（）+ otherObject-&gt; width（）; </span><br><span class="line">&#125;  </span><br></pre></td></tr></table></figure>
+<h4 id="Q-OBJECT-BINDABLE-PROPERTY的优势"><a href="#Q-OBJECT-BINDABLE-PROPERTY的优势" class="headerlink" title="Q_OBJECT_BINDABLE_PROPERTY的优势"></a>Q_OBJECT_BINDABLE_PROPERTY的优势</h4><p>与QProperty不同，Q_OBJECT_BINDABLE_PROPERTY不会增加任何内存开销（会将管理的数据结构存放于QObject中）。宏实现的对象的大小与要存储的数据的大小相同。这是通过将绑定数据移到整个QObject实例的公共数据结构（按需分配）中来实现的。Q_OBJECT_BINDABLE_PROPERTY宏扩展为两件事。首先，它在对象内部定义了一个静态成员函数：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">static constexpr size_t _qt_property_cData_offset()</span><br><span class="line">&#123;</span><br><span class="line">    return offsetof(MyObject, xData);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>然后，此方法允许被用作下一行中定义的QObjectBindableProperty实例的模板参数：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">QObjectBindableProperty &lt;MyObject，int，MyObject :: _qt_property_cData_offset&gt; xData;</span><br></pre></td></tr></table></figure>
+<p>这样做的结果是，我们现在有了一个方法，可以从属性数据的this指针计算出拥有属性数据的QObject的this指针。这个东西我们又用来从QObject中检索一个QBindingStorage指针。这个指针可能是空的，在这种情况下，我们有快速路径，在这个对象上没有使用绑定。否则，我们在QBindingStorage中查找QProperty内置的QPropertyBindingData。一旦我们检索到一个有效的绑定数据的指针，QObjectBindableProperty基本上就会进行和QProperty一样的操作。</p>
+<h3 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项"></a>注意事项</h3><ul>
+<li><p>addNotifier 等接口返回的对象释放后就取消了订阅，不再触发回调。</p>
+</li>
+<li><p>依赖跟踪仅适用于可绑定属性，即只有绑定表达式中的可绑定对象更新才会触发绑定属性的更新。</p>
+</li>
+<li><p>绑定表达式中的对象需要注意生命周期，寿命应该比这个绑定长。</p>
+</li>
+<li><p>可绑定属性系统不是线程安全的。一个线程上的绑定表达式中使用的属性不得被任何其他线程读取或修改。不能将具有绑定属性的QObject派生类的对象移动到不同的线程。此外，具有在绑定中使用的属性的QObject派生类的对象不得移动到不同的线程。在这种情况下，它是用于同一个对象的属性绑定还是用于另一个对象的属性绑定是无关紧要的。</p>
+</li>
+<li><p>避免循环绑定。</p>
+</li>
+<li><p>用作绑定的函数以及在绑定中调用的所有代码不得 co_await，这样做会混淆属性系统对依赖项的跟踪。</p>
+</li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2022/11/26/brpc%E4%BB%8B%E7%BB%8D/" rel="prev" title="brpc介绍">
+      <i class="fa fa-chevron-left"></i> brpc介绍
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#QT6%E6%96%B0%E7%89%B9%E6%80%A7"><span class="nav-number">1.</span> <span class="nav-text">QT6新特性</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%96%B0%E4%B8%80%E4%BB%A3%E7%9A%84QML"><span class="nav-number">1.1.</span> <span class="nav-text">新一代的QML</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%A0%B8%E5%BF%83%E5%BA%93%E4%B8%8EAPI"><span class="nav-number">1.2.</span> <span class="nav-text">核心库与API</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%96%B0%E7%9A%84%E5%9B%BE%E5%BD%A2%E6%9E%B6%E6%9E%84"><span class="nav-number">1.3.</span> <span class="nav-text">新的图形架构</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Qt-Quick-3D%E5%92%8CQt-3D"><span class="nav-number">1.4.</span> <span class="nav-text">Qt Quick 3D和Qt 3D</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9E%84%E5%BB%BA%E7%B3%BB%E7%BB%9F%E5%92%8C%E6%89%93%E5%8C%85"><span class="nav-number">1.5.</span> <span class="nav-text">构建系统和打包</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Qt6%E5%B1%9E%E6%80%A7%E7%BB%91%E5%AE%9A"><span class="nav-number">1.6.</span> <span class="nav-text">Qt6属性绑定</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Qt-5%E4%B8%AD%E7%9A%84%E7%BB%91%E5%AE%9A"><span class="nav-number">1.6.1.</span> <span class="nav-text">Qt 5中的绑定</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E9%9C%80%E8%A6%81%E5%B0%86%E7%BB%91%E5%AE%9A%E7%B3%BB%E7%BB%9F%E6%8B%93%E5%B1%95%E5%88%B0C-%E4%B8%AD"><span class="nav-number">1.6.2.</span> <span class="nav-text">为什么需要将绑定系统拓展到C++中</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%AE%80%E5%8D%95%E5%AE%9E%E6%96%BD"><span class="nav-number">1.6.2.1.</span> <span class="nav-text">简单实施</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8D%B3%E6%97%B6%E7%BB%91%E5%AE%9A%E5%92%8C%E5%BB%B6%E8%BF%9F%E7%BB%91%E5%AE%9A"><span class="nav-number">1.6.2.2.</span> <span class="nav-text">即时绑定和延迟绑定</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%BB%B6%E8%BF%9F%E7%BB%91%E5%AE%9A%E7%9A%84%E9%99%90%E5%88%B6%E6%80%A7"><span class="nav-number">1.6.2.3.</span> <span class="nav-text">延迟绑定的限制性</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%80%9A%E7%9F%A5%E5%92%8C%E5%8F%98%E6%9B%B4%E5%A4%84%E7%90%86%E7%A8%8B%E5%BA%8F"><span class="nav-number">1.6.2.4.</span> <span class="nav-text">通知和变更处理程序</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8Q-PROPERTY%E3%80%81Q-OBJECT-BINDABLE-PROPERTY-%E5%A3%B0%E6%98%8E%E5%AE%9A%E4%B9%89%E5%8F%AF%E7%BB%91%E5%AE%9A%E5%AF%B9%E8%B1%A1"><span class="nav-number">1.6.3.</span> <span class="nav-text">使用Q_PROPERTY、Q_OBJECT_BINDABLE_PROPERTY 声明定义可绑定对象</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Q-OBJECT-BINDABLE-PROPERTY%E7%9A%84%E4%BC%98%E5%8A%BF"><span class="nav-number">1.6.3.1.</span> <span class="nav-text">Q_OBJECT_BINDABLE_PROPERTY的优势</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9"><span class="nav-number">1.6.4.</span> <span class="nav-text">注意事项</span></a></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">MnnM</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">4</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">MnnM</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>
